@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Magasin {
   id: string;
@@ -18,26 +18,18 @@ interface Inventaire {
   stock: Record<string, number>; // Record<magasinId, stock>
 }
 
-interface InventoryTableProps {
-  inventaires: Inventaire[];
-  magasins: Magasin[];
-  produits: Produit[];
-}
-interface InventoryRowProps {
-  inventaire: Inventaire;
-  magasins: Magasin[];
-  produits: Produit[];
-}
-
-function InventoryRow({ inventaire, magasins, produits }) {
-  const product = produits.find((p:Produit) => p.id === inventaire.produitId);
+function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
+  const product = produits.find((p: Produit) => p.id === inventaire.produitId);
 
   return (
-    <tr className="inventory-row">
+    <tr
+      onClick={() => onClickRow(inventaire.produitId)}
+      className="inventory-row"
+    >
       <td>{inventaire.date}</td>
       <td>{product ? product.nom : "Unknown Product"}</td>
       <td>{product ? product.prix : "NaN"} XAF</td>
-      {magasins.map((magasin:Magasin) => (
+      {magasins.map((magasin: Magasin) => (
         <td key={magasin.id}>
           {inventaire.stock[magasin.id] !== null
             ? inventaire.stock[magasin.id]
@@ -48,7 +40,7 @@ function InventoryRow({ inventaire, magasins, produits }) {
   );
 }
 
-function InventoryTable({ inventaires, magasins, produits }) {
+function InventoryTable({ inventaires, magasins, produits, onClickRow }) {
   return (
     <table className="inventory-table">
       <thead>
@@ -61,14 +53,15 @@ function InventoryTable({ inventaires, magasins, produits }) {
           </th>
         </tr>
         <tr>
-          {magasins.map((magasin:Magasin) => (
+          {magasins.map((magasin: Magasin) => (
             <th key={magasin.id}>{magasin.nom}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {inventaires.map((inventaire:Inventaire) => (
+        {inventaires.map((inventaire: Inventaire) => (
           <InventoryRow
+            onClickRow={onClickRow}
             key={inventaire.produitId}
             inventaire={inventaire}
             magasins={magasins}
@@ -80,16 +73,75 @@ function InventoryTable({ inventaires, magasins, produits }) {
   );
 }
 
-function InventoryForm({ magasins, produits, initialData, onSave, onCancel }) {
+function InventoryForm({
+  magasins,
+  produits,
+  initialData,
+  onSave,
+  onCancel,
+  onSelectProduct,
+}) {
+  const [date, setDate] = useState(initialData ? initialData.date : "");
+  const [produitId, setProduitId] = useState(
+    initialData ? initialData.produitId : ""
+  );
+  const [stocks, setStocks] = useState(
+    initialData
+      ? initialData.stock
+      : magasins.reduce(
+          (acc, magasin: Magasin) => ({ ...acc, [magasin.id]: 0 }),
+          {}
+        )
+  );
 
+  useEffect(() => {
+    if (initialData) {
+      setDate(initialData.date);
+      setProduitId(initialData.produitId);
+      setStocks(initialData.stock);
+    } else {
+      setDate("");
+      setProduitId("");
+      setStocks(
+        magasins.reduce(
+          (acc, magasin: Magasin) => ({ ...acc, [magasin.id]: 0 }),
+          {}
+        )
+      );
+    }
+  }, [initialData, magasins]);
+
+  const handleProduitChange = (id: string) => {
+    onSelectProduct(id);
+    setProduitId(id);
+  };
+
+  const handleStockChange = (magasinId: string, newStock: number) => {
+    setStocks({
+      ...stocks,
+      [magasinId]: newStock,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const inventaire = {
+      date,
+      produitId,
+      stock: stocks,
+    };
+    onSave(inventaire);
+  };
 
   return (
-    <form className="inventory-form" onSubmit={()=>{}}>
+    <form className="inventory-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="date">Date de l'inventaire</label>
         <input
           type="date"
           id="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           required
         />
       </div>
@@ -97,6 +149,8 @@ function InventoryForm({ magasins, produits, initialData, onSave, onCancel }) {
         <label htmlFor="produit">Produit</label>
         <select
           id="produit"
+          value={produitId}
+          onChange={(e) => handleProduitChange(e.target.value)}
           required
         >
           <option value="">Sélectionner un produit</option>
@@ -115,6 +169,10 @@ function InventoryForm({ magasins, produits, initialData, onSave, onCancel }) {
             <input
               type="number"
               id={`stock-${magasin.id}`}
+              value={stocks[magasin.id]}
+              onChange={(e) =>
+                handleStockChange(magasin.id, parseInt(e.target.value, 10) || 0)
+              }
               min="0"
               required
             />
@@ -148,20 +206,48 @@ function Modal({ children, isOpen, onClose }) {
   );
 }
 
-function InventoryOverview({ onAddInventory }) {
-  const [isModalOpen, setModalOpen] = useState(true);
+function InventoryOverview() {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [initialData, setInitialData] = useState<Inventaire | undefined>(
+    undefined
+  );
+
+  const handleAddInventory = () => {
+    setInitialData(undefined);
+    setModalOpen(true);
+  };
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-  
+
+  const handleOnSave = (inventaire: Inventaire) => {
+    const existingIndex = INVENTAIRES.findIndex(
+      (existing: Inventaire) => existing.produitId === inventaire.produitId
+    );
+    if (existingIndex > -1) {
+      INVENTAIRES[existingIndex] = inventaire;
+    } else {
+      INVENTAIRES.push(inventaire);
+    }
+    setModalOpen(false);
+  };
+
+  const handleSelectProduit = (id: string) => {
+    setInitialData(
+      INVENTAIRES.find((inventaire: Inventaire) => inventaire.produitId === id)
+    );
+    setModalOpen(true);
+  };
+
   return (
     <div className="inventory-overview">
-      <button className="add-inventory-btn" onClick={onAddInventory}>
+      <button className="add-inventory-btn" onClick={handleAddInventory}>
         Ajouter un Inventaire
       </button>
 
       <InventoryTable
+        onClickRow={handleSelectProduit}
         produits={PRODUITS}
         magasins={MAGASINS}
         inventaires={INVENTAIRES}
@@ -169,11 +255,12 @@ function InventoryOverview({ onAddInventory }) {
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <InventoryForm
-          initialData={null}
+          onSelectProduct={handleSelectProduit}
+          initialData={initialData}
           magasins={MAGASINS}
           produits={PRODUITS}
-          onSave={() => {}}
-          onCancel={() => {}}
+          onSave={handleOnSave}
+          onCancel={handleCloseModal}
         />
       </Modal>
     </div>
@@ -206,55 +293,13 @@ const PRODUITS: Produit[] = [
   { id: "15", nom: "Shampoing 500ml", prix: 2500 },
 ];
 
-
-const INVENTAIRES: Inventaire[] = [
-  {
-    date: "2024-09-09",
-    produitId: "1",
-    stock: { "1": 50, "2": 30, "3": 20, "4": 15, "5": 10 },
-  },
-  {
-    date: "2024-09-08",
-    produitId: "2",
-    stock: { "1": 100, "2": 70, "3": 40, "4": 25, "5": 60 },
-  },
-  {
-    date: "2024-09-07",
-    produitId: "3",
-    stock: { "1": 25, "2": 20, "3": 15, "4": 10, "5": 30 },
-  },
-  {
-    date: "2024-09-06",
-    produitId: "4",
-    stock: { "1": 75, "2": 55, "3": 45, "4": 35, "5": 60 },
-  },
-  {
-    date: "2024-09-05",
-    produitId: "5",
-    stock: { "1": 200, "2": 150, "3": 100, "4": 80, "5": 120 },
-  },
-  {
-    date: "2024-09-04",
-    produitId: "6",
-    stock: { "1": 300, "2": 250, "3": 200, "4": 180, "5": 220 },
-  },
-  {
-    date: "2024-09-03",
-    produitId: "7",
-    stock: { "1": 10, "2": 8, "3": 5, "4": 3, "5": 6 },
-  },
-  {
-    date: "2024-09-02",
-    produitId: "8",
-    stock: { "1": 5, "2": 4, "3": 3, "4": 2, "5": 1 },
-  },
-];
+let INVENTAIRES: Inventaire[] = [];
 
 export default function InventoryApp() {
   return (
     <div>
       <h1>Gestion des Inventaires</h1>
-      <InventoryOverview onAddInventory={() => {}} />
+      <InventoryOverview />
     </div>
   );
 }
