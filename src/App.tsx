@@ -211,6 +211,23 @@ function InventoryOverview() {
   const [initialData, setInitialData] = useState<Inventaire | undefined>(
     undefined
   );
+  const [inventaires, setInventaires] = useState<Inventaire[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("inventaires");
+    if (storedData) {
+      setInventaires(JSON.parse(storedData));
+    }
+    setIsInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem("inventaires", JSON.stringify(inventaires));
+    }
+  }, [inventaires, isInitialized]);
+
 
   const handleAddInventory = () => {
     setInitialData(undefined);
@@ -222,20 +239,22 @@ function InventoryOverview() {
   };
 
   const handleOnSave = (inventaire: Inventaire) => {
-    const existingIndex = INVENTAIRES.findIndex(
+    const tempInventaires = inventaires.slice(0,inventaires.length)
+    const existingIndex = tempInventaires.findIndex(
       (existing: Inventaire) => existing.produitId === inventaire.produitId
     );
     if (existingIndex > -1) {
-      INVENTAIRES[existingIndex] = inventaire;
+      tempInventaires[existingIndex] = inventaire;
     } else {
-      INVENTAIRES.push(inventaire);
+      tempInventaires.push(inventaire);
     }
+    setInventaires(tempInventaires);
     setModalOpen(false);
   };
 
   const handleSelectProduit = (id: string) => {
     setInitialData(
-      INVENTAIRES.find((inventaire: Inventaire) => inventaire.produitId === id)
+      inventaires.find((inventaire: Inventaire) => inventaire.produitId === id)
     );
     setModalOpen(true);
   };
@@ -250,7 +269,7 @@ function InventoryOverview() {
         onClickRow={handleSelectProduit}
         produits={PRODUITS}
         magasins={MAGASINS}
-        inventaires={INVENTAIRES}
+        inventaires={inventaires}
       />
 
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
@@ -292,8 +311,6 @@ const PRODUITS: Produit[] = [
   { id: "14", nom: "Dentifrice 100ml", prix: 800 },
   { id: "15", nom: "Shampoing 500ml", prix: 2500 },
 ];
-
-let INVENTAIRES: Inventaire[] = [];
 
 export default function InventoryApp() {
   return (
