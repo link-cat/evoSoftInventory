@@ -239,16 +239,17 @@ function InventoryOverview() {
   };
 
   const handleOnSave = (inventaire: Inventaire) => {
-    const tempInventaires = inventaires.slice(0,inventaires.length)
-    const existingIndex = tempInventaires.findIndex(
+    const existingIndex = inventaires.findIndex(
       (existing: Inventaire) => existing.produitId === inventaire.produitId
     );
+
+    const newInventaires = [...inventaires];
     if (existingIndex > -1) {
-      tempInventaires[existingIndex] = inventaire;
+      newInventaires[existingIndex] = inventaire;
     } else {
-      tempInventaires.push(inventaire);
+      newInventaires.push(inventaire);
     }
-    setInventaires(tempInventaires);
+    setInventaires(newInventaires);
     setModalOpen(false);
   };
 
