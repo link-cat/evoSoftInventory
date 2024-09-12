@@ -22,6 +22,10 @@ interface Inventaire {
 function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
   const product = produits.find((p: Produit) => p.id === inventaire.produitId);
 
+  const getStockClass = (stock) => {
+    return stock < 10 ? "low-stock" : "high-stock";
+  };
+  
   return (
     <tr
       onClick={() => onClickRow(inventaire.produitId)}
@@ -31,7 +35,7 @@ function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
       <td>{product ? product.nom : "Unknown Product"}</td>
       <td>{product ? product.prix : "NaN"} XAF</td>
       {magasins.map((magasin: Magasin) => (
-        <td key={magasin.id}>
+        <td className={getStockClass(inventaire.stock[magasin.id])} key={magasin.id}>
           {inventaire.stock[magasin.id] !== null
             ? inventaire.stock[magasin.id]
             : "N/A"}

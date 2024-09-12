@@ -184,3 +184,11 @@ input[type="number"] {
 .btn-container{
   vertical-align: bottom;
 }
+
+.low-stock {
+  color: #df0f23;
+}
+
+.high-stock {
+  color: #17c23f;
+}
