@@ -138,6 +138,8 @@ function InventoryForm({
     onSave(inventaire);
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <form className="inventory-form" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -147,6 +149,7 @@ function InventoryForm({
           id="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          max={today}
           required
         />
       </div>
