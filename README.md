@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+Ce repository a été créé pour le test technique de la société évolutives software 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Inventory Management
 
-## Available Scripts
+**Inventory Management** est une application React qui permet de gérer les stocks de plusieurs magasins, d'ajouter des inventaires pour chaque produit, et d'exporter les données en format CSV. L'application est internationalisée avec `react-i18next` pour permettre un support multilingue.
 
-In the project directory, you can run:
+## Table des matières
+1. [Technologies utilisées](#technologies-utilisées)
+2. [Fonctionnalités](#fonctionnalités)
+3. [Prérequis](#prérequis)
+4. [Installation](#installation)
+5. [Démarrage](#démarrage)
+6. [Internationalisation](#internationalisation)
 
-### `npm start`
+## Technologies utilisées
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React.js** - Librairie JavaScript pour créer des interfaces utilisateurs.
+- **TypeScript** - Superset de JavaScript offrant une typage statique.
+- **react-i18next** - Pour la gestion de l'internationalisation.
+- **papaparse** - Pour l'exportation des données en format CSV.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Fonctionnalités
 
-### `npm test`
+- **Ajouter, éditer et supprimer des inventaires** pour plusieurs magasins.
+- **Exportation des inventaires en CSV**.
+- **Internationalisation (i18n)** avec support de plusieurs langues (français et anglais).
+- **Interface utilisateur moderne** avec une navigation simple pour changer de langue.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prérequis
 
-### `npm run build`
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js** (v14 ou plus récent)
+- **npm** (v6 ou plus récent) ou **yarn**
+- Un navigateur moderne (Chrome, Firefox, Edge, etc.)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Cloner le repository** sur votre machine locale :
 
-### `npm run eject`
+   ```bash
+   git clone https://github.com/link-cat/evoSoftInventory.git
+2. **Naviguer dans le répertoire du projet**:
+   ```bash
+      cd inventory-management
+3. **Installer les dépendances :**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   Si vous utilisez `npm` :
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+        npm install
+   
+   Si vous utilisez `yarn` :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    ```bash
+    yarn install
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Démarrage 
+Après l'installation, vous pouvez démarrer le projet en mode développement :
 
-## Learn More
+  Si vous utilisez `npm` :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    npm start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ Si vous utilisez `yarn` :
+ 
+    yarn start
 
-### Code Splitting
+cela ouvrira l'application dans votre navigateur par défaut à l'adresse suivante : http://localhost:3000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Internationalisation
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+l'application supporte deux langues : **Français** et **Anglais**. Vous pouvez changez la langue via la barre de navigation en cliquant sur les boutons correspondant aux drapeaux.
+ - par défaut, l'application sélectionne la langue du navigateur.
+ - vous pouvez ajouter d'autres langues en modifiant les fichiers de traduction dans le dossier src/locales
