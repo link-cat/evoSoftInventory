@@ -307,7 +307,7 @@ function InventoryOverview() {
 
   return (
     <div className="inventory-overview">
-      <div className="btn-container">
+      <div>
         <button className="add-inventory-btn" onClick={handleAddInventory}>
           {t("add_inventory")}
         </button>

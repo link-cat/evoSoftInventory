@@ -4,11 +4,6 @@ body {
   background-color: #f9f9f9;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
-}
-
 .inventory-overview {
   position: relative;
   padding: 20px;
@@ -181,10 +176,6 @@ input[type="number"] {
   background-color: #2fda92;
 }
 
-.btn-container{
-  vertical-align: bottom;
-}
-
 .low-stock {
   color: #df0f23;
 }
@@ -206,7 +197,6 @@ input[type="number"] {
 .navbar-title {
   font-size: 2rem;
   font-weight: bold;
-  color: white;
 }
 
 .navbar-languages {
