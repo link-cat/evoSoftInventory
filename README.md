@@ -1,5 +1,3 @@
-Ce repository a été créé pour le test technique de la société évolutives software 
-
 # Inventory Management
 
 **Inventory Management** est une application React qui permet de gérer les stocks de plusieurs magasins, d'ajouter des inventaires pour chaque produit, et d'exporter les données en format CSV. L'application est internationalisée avec `react-i18next` pour permettre un support multilingue.
