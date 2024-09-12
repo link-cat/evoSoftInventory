@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { unparse } from "papaparse";
+import { useTranslation } from "react-i18next";
 
 interface Magasin {
   id: string;
@@ -25,6 +26,8 @@ function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
   const getStockClass = (stock) => {
     return stock < 10 ? "low-stock" : "high-stock";
   };
+
+  const {t} = useTranslation()
   
   return (
     <tr
@@ -32,10 +35,13 @@ function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
       className="inventory-row"
     >
       <td>{inventaire.date}</td>
-      <td>{product ? product.nom : "Unknown Product"}</td>
+      <td>{product ? product.nom : t("unknown_product")}</td>
       <td>{product ? product.prix : "NaN"} XAF</td>
       {magasins.map((magasin: Magasin) => (
-        <td className={getStockClass(inventaire.stock[magasin.id])} key={magasin.id}>
+        <td
+          className={getStockClass(inventaire.stock[magasin.id])}
+          key={magasin.id}
+        >
           {inventaire.stock[magasin.id] !== null
             ? inventaire.stock[magasin.id]
             : "N/A"}
@@ -46,15 +52,16 @@ function InventoryRow({ inventaire, magasins, produits, onClickRow }) {
 }
 
 function InventoryTable({ inventaires, magasins, produits, onClickRow }) {
+  const {t} = useTranslation()
   return (
     <table className="inventory-table">
       <thead>
         <tr>
-          <th rowSpan={2}>Date</th>
-          <th rowSpan={2}>Produit</th>
-          <th rowSpan={2}>Prix</th>
+          <th rowSpan={2}>{t("date")}</th>
+          <th rowSpan={2}>{t("product")}</th>
+          <th rowSpan={2}>{t("price")}</th>
           <th colSpan={magasins.length} className="magasins-header">
-            Magasins
+            {t("stores")}
           </th>
         </tr>
         <tr>
@@ -139,11 +146,12 @@ function InventoryForm({
   };
 
   const today = new Date().toISOString().split("T")[0];
+  const {t} = useTranslation()
 
   return (
     <form className="inventory-form" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="date">Date de l'inventaire</label>
+        <label htmlFor="date">{t("date_label")}</label>
         <input
           type="date"
           id="date"
@@ -154,14 +162,14 @@ function InventoryForm({
         />
       </div>
       <div className="form-group">
-        <label htmlFor="produit">Produit</label>
+        <label htmlFor="produit">{t("product_label")}</label>
         <select
           id="produit"
           value={produitId}
           onChange={(e) => handleProduitChange(e.target.value)}
           required
         >
-          <option value="">Sélectionner un produit</option>
+          <option value="">{t("select_product")}</option>
           {produits.map((produit: Produit) => (
             <option key={produit.id} value={produit.id}>
               {produit.nom}
@@ -170,7 +178,7 @@ function InventoryForm({
         </select>
       </div>
       <div className="form-group">
-        <label>Stocks disponibles</label>
+        <label>{t("stock_label")}</label>
         {magasins.map((magasin: Magasin) => (
           <div key={magasin.id} className="magasin-stock">
             <label htmlFor={`stock-${magasin.id}`}>{magasin.nom}</label>
@@ -189,10 +197,10 @@ function InventoryForm({
       </div>
       <div className="form-actions">
         <button type="submit" className="btn-save">
-          Enregistrer
+          {t("save_button")}
         </button>
         <button type="button" className="btn-cancel" onClick={onCancel}>
-          Annuler
+          {t("cancel_button")}
         </button>
       </div>
     </form>
@@ -295,15 +303,17 @@ function InventoryOverview() {
     setModalOpen(true);
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="inventory-overview">
       <div className="btn-container">
         <button className="add-inventory-btn" onClick={handleAddInventory}>
-          Ajouter un Inventaire
+          {t("add_inventory")}
         </button>
 
         <button className="export-csv-btn" onClick={handleExportCSV}>
-          Exporter en CSV
+          {t("export_csv")}
         </button>
       </div>
 
@@ -354,10 +364,39 @@ const PRODUITS: Produit[] = [
   { id: "15", nom: "Shampoing 500ml", prix: 2500 },
 ];
 
+function NavBar() {
+  const { i18n, t } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <nav className="navbar">
+      <h1 className="navbar-title">{t("inventory_title")}</h1>
+      <div className="navbar-languages">
+        <button onClick={() => changeLanguage("fr")} className="lang-btn">
+          <span role="img" aria-label="français">
+            🇫🇷
+          </span>{" "}
+          Français
+        </button>
+        <button onClick={() => changeLanguage("en")} className="lang-btn">
+          <span role="img" aria-label="english">
+            🇬🇧
+          </span>{" "}
+          English
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+
 export default function InventoryApp() {
   return (
     <div>
-      <h1>Gestion des Inventaires</h1>
+      <NavBar />
       <InventoryOverview />
     </div>
   );

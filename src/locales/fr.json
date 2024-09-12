@@ -1,0 +1,16 @@
+{
+  "inventory_title": "Gestion des Inventaires",
+  "add_inventory": "Ajouter un Inventaire",
+  "export_csv": "Exporter en CSV",
+  "date_label": "Date de l'inventaire",
+  "product_label": "Produit",
+  "stock_label": "Stocks disponibles",
+  "save_button": "Enregistrer",
+  "cancel_button": "Annuler",
+  "select_product": "Sélectionner un produit",
+  "date": "Date",
+  "product": "Produit",
+  "price": "Prix",
+  "stores": "Magasins",
+  "unknown_product": "Produit inconnu"
+}

@@ -192,3 +192,55 @@ input[type="number"] {
 .high-stock {
   color: #17c23f;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 1rem;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.navbar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.navbar-languages {
+  display: flex;
+  gap: 1rem;
+}
+
+.lang-btn {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+}
+
+.lang-btn:hover {
+  background-color: white;
+  color: #333;
+}
+
+.lang-btn span {
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-title {
+    margin-bottom: 0.5rem;
+  }
+}

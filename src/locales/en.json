@@ -1,0 +1,16 @@
+{
+  "inventory_title": "Inventory Management",
+  "add_inventory": "Add Inventory",
+  "export_csv": "Export to CSV",
+  "date_label": "Inventory Date",
+  "product_label": "Product",
+  "stock_label": "Available Stock",
+  "save_button": "Save",
+  "cancel_button": "Cancel",
+  "select_product": "Select a product",
+  "date": "Date",
+  "product": "Product",
+  "price": "Price",
+  "stores": "Stores",
+  "unknown_product": "Unknown product"
+}
