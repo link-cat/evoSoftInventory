@@ -14,19 +14,20 @@ body {
 .inventory-table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 10px;
   margin-top: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.inventory-table th,
 .inventory-table td {
   padding: 12px;
-  border: 1px solid #ddd;
+  border-top: 1px solid #ddd;
   text-align: center;
 }
 
 .inventory-table th {
-  background-color: #f4f4f4;
+  padding: 12px;
+  background-color: #e0e0e0;
   font-weight: bold;
 }
 
@@ -35,12 +36,9 @@ body {
   cursor: pointer;
 }
 
-.inventory-table th {
-  border: 1px solid #ccc;
-}
 
 .inventory-table .magasins-header {
-  background-color: #e0e0e0;
+  background-color: #9ba1b6;
   text-transform: uppercase;
 }
 
@@ -188,9 +186,9 @@ input[type="number"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #e0e0e0;
   padding: 1rem;
-  color: white;
+  color: black;
   margin-bottom: 20px;
 }
 
@@ -206,8 +204,8 @@ input[type="number"] {
 
 .lang-btn {
   background-color: transparent;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid black;
+  color: black;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
@@ -216,8 +214,8 @@ input[type="number"] {
 }
 
 .lang-btn:hover {
-  background-color: white;
-  color: #333;
+  background-color: #333;
+  color: white;
 }
 
 .lang-btn span {
