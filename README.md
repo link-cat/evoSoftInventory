@@ -19,7 +19,7 @@
 
 ## Fonctionnalités
 
-- **Ajouter, éditer et supprimer des inventaires** pour plusieurs magasins.
+- **Ajouter, éditer des inventaires** pour plusieurs magasins.
 - **Exportation des inventaires en CSV**.
 - **Internationalisation (i18n)** avec support de plusieurs langues (français et anglais).
 - **Interface utilisateur moderne** avec une navigation simple pour changer de langue.
