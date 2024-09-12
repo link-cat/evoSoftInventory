@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 20px;
   background-color: #f9f9f9;
 }
@@ -14,25 +14,6 @@ h1 {
   padding: 20px;
   margin: 0 auto;
   max-width: 90%;
-}
-
-.add-inventory-btn {
-  position: absolute;
-  right: 20px;
-  top: 0;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  width: 200px;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.add-inventory-btn:hover {
-  background-color: #45a049;
 }
 
 .inventory-table {
@@ -163,15 +144,43 @@ input[type="number"] {
 }
 
 .add-inventory-btn {
-  background-color: #007bff;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  background-color: #085ab1;
   color: white;
-  padding: 10px 20px;
   border: none;
+  width: 200px;
+  padding: 8px 12px;
+  font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .add-inventory-btn:hover {
-  background-color: #0056b3;
+  background-color: #4b9cf3;
+}
+
+.export-csv-btn {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  background-color: #42a17a;
+  color: white;
+  border: none;
+  width: 200px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-csv-btn:hover {
+  background-color: #2fda92;
+}
+
+.btn-container{
+  vertical-align: bottom;
 }

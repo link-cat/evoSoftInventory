@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { unparse } from "papaparse";
 
 interface Magasin {
   id: string;
@@ -228,7 +229,6 @@ function InventoryOverview() {
     }
   }, [inventaires, isInitialized]);
 
-
   const handleAddInventory = () => {
     setInitialData(undefined);
     setModalOpen(true);
@@ -253,6 +253,34 @@ function InventoryOverview() {
     setModalOpen(false);
   };
 
+  const handleExportCSV = () => {
+    const data = inventaires.map((inventaire) => {
+      const produit =
+        PRODUITS.find((p) => p.id === inventaire.produitId)?.nom ||
+        "Produit inconnu";
+      const row = { produit };
+      row["date"] = inventaire.date;
+      MAGASINS.forEach((magasin) => {
+        row[magasin.nom] = inventaire.stock[magasin.id] || 0;
+      });
+
+      return row;
+    });
+
+    const headers = ["date", "produit", ...MAGASINS.map((m) => m.nom)];
+
+    const csv = unparse({ fields: headers, data });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "inventaires.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleSelectProduit = (id: string) => {
     setInitialData(
       inventaires.find((inventaire: Inventaire) => inventaire.produitId === id)
@@ -262,9 +290,15 @@ function InventoryOverview() {
 
   return (
     <div className="inventory-overview">
-      <button className="add-inventory-btn" onClick={handleAddInventory}>
-        Ajouter un Inventaire
-      </button>
+      <div className="btn-container">
+        <button className="add-inventory-btn" onClick={handleAddInventory}>
+          Ajouter un Inventaire
+        </button>
+
+        <button className="export-csv-btn" onClick={handleExportCSV}>
+          Exporter en CSV
+        </button>
+      </div>
 
       <InventoryTable
         onClickRow={handleSelectProduit}
