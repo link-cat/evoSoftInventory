@@ -3,6 +3,7 @@
 **Inventory Management** est une application React qui permet de gérer les stocks de plusieurs magasins, d'ajouter des inventaires pour chaque produit, et d'exporter les données en format CSV. L'application est internationalisée avec `react-i18next` pour permettre un support multilingue.
 
 ## Table des matières
+
 1. [Technologies utilisées](#technologies-utilisées)
 2. [Fonctionnalités](#fonctionnalités)
 3. [Prérequis](#prérequis)
@@ -38,35 +39,45 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 
    ```bash
    git clone https://github.com/link-cat/evoSoftInventory.git
+   ```
 2. **Naviguer dans le répertoire du projet**:
+
    ```bash
       cd inventory-management
+   ```
 3. **Installer les dépendances :**
 
    Si vous utilisez `npm` :
 
-        npm install
-   
+   ```bash
+   npm install
+   ```
+
    Si vous utilisez `yarn` :
 
-    ```bash
-    yarn install
+   ```bash
+   yarn install
+   ```
 
-## Démarrage 
+## Démarrage
+
 Après l'installation, vous pouvez démarrer le projet en mode développement :
 
   Si vous utilisez `npm` :
+  ```bash
+  npm start
+  ```
 
-    npm start
-
- Si vous utilisez `yarn` :
- 
-    yarn start
+  Si vous utilisez `yarn` :
+   ```bash
+   yarn start
+   ```
 
 cela ouvrira l'application dans votre navigateur par défaut à l'adresse suivante : http://localhost:3000
 
 ## Internationalisation
 
 l'application supporte deux langues : **Français** et **Anglais**. Vous pouvez changez la langue via la barre de navigation en cliquant sur les boutons correspondant aux drapeaux.
- - par défaut, l'application sélectionne la langue du navigateur.
- - vous pouvez ajouter d'autres langues en modifiant les fichiers de traduction dans le dossier src/locales
+
+- par défaut, l'application sélectionne la langue du navigateur.
+- vous pouvez ajouter d'autres langues en modifiant les fichiers de traduction dans le dossier src/locales
